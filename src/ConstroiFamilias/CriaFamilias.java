@@ -7,13 +7,18 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CriaFamilias {
 
-    private HashMap<Integer, Familia> familias = new HashMap<>();
+    private List<Familia> familias = new ArrayList<>();
 
     public CriaFamilias() {
+        criarFamilias();
+    }
+
+    private void criarFamilias() {
         JSONParser leitor = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) leitor.parse(new FileReader("src/Auxiliares/familias.json"));
@@ -33,10 +38,14 @@ public class CriaFamilias {
                         novoIntegrante.setRenda((long) integrante.get("renda"));
                     familia.setIntegrantes(novoIntegrante);
                 }
-                familias.put(familia.getID(), familia);
+                familias.add(familia);
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Familia> getFamilias() {
+        return familias;
     }
 }

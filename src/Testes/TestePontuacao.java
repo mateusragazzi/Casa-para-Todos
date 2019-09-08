@@ -7,6 +7,15 @@ import org.junit.jupiter.api.Test;
 class TestePontuacao extends Pontuacao {
 
     @Test
+    void testaFamiliaExemplo() {
+        int pontoIdade = criterioIdade(29); // 2pts
+        int pontoRenda = criterioRenda(1950); // 3pts
+        int pontoDependentes = criterioDependentes(2); // 2pts
+        int result = pontoDependentes + pontoIdade + pontoRenda;
+        Assert.assertEquals(4, result);
+    }
+
+    @Test
     void testaFamiliaSetePontos() {
         int pontoIdade = criterioIdade(32); // 2pts
         int pontoRenda = criterioRenda(1040.50f); // 3pts

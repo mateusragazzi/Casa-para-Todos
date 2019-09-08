@@ -23,15 +23,27 @@ public class Integrante {
         this.renda = renda;
     }
 
+    public long getRenda() {
+        return renda;
+    }
+
     public int getID() {
         return ID;
     }
 
-    public int calcularIdade() {
+    private int calcularIdade() {
         LocalDate dataNascimento = retornaDataProcessada();
         LocalDate dataAtual = LocalDate.now();
         Period diferenca = Period.between(dataNascimento, dataAtual);
         return diferenca.getYears();
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public int getIdade() {
+        return idade;
     }
 
     private LocalDate retornaDataProcessada() {

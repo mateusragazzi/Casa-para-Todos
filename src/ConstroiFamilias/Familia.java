@@ -1,34 +1,35 @@
 package ConstroiFamilias;
 
+import SelecaoDeFamilias.Pontuacao;
 import java.util.HashMap;
-import java.util.Objects;
 
-public class Familia {
+public class Familia implements Comparable<Familia> {
     private long status;
     private HashMap<Integer, Integrante> integrantes = new HashMap<>();
+    private Pontuacao pontos;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Familia familia = (Familia) o;
-        return status == familia.status;
+    private int getPontos() {
+        return pontos.getPontuacaoTotal();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(status);
+    public HashMap<Integer, Integrante> getIntegrantes() {
+        return integrantes;
     }
 
-    public void setIntegrantes(Integrante integrante) {
+    void setIntegrantes(Integrante integrante) {
         integrantes.put(integrante.getID(), integrante);
     }
 
-    public Integer getID() {
-        return hashCode();
+    void setStatus(long status) {
+        this.status = status;
     }
 
-    public void setStatus(long status) {
-        this.status = status;
+    public void calcularPontuacao() {
+        pontos = new Pontuacao(integrantes);
+    }
+
+    @Override
+    public int compareTo(Familia outraFamilia) {
+        return Integer.compare(outraFamilia.getPontos(), this.getPontos());
     }
 }
