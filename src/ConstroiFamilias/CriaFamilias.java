@@ -1,5 +1,6 @@
 package ConstroiFamilias;
 
+import Auxiliares.TipoIntegrante;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,37 +13,46 @@ import java.util.List;
 
 public class CriaFamilias {
 
-    private List<Familia> familias = new ArrayList<>();
+    private final List<Familia> familias = new ArrayList<>();
 
     public CriaFamilias() {
-        criarFamilias();
+        lerArquivoFamilias();
     }
 
-    private void criarFamilias() {
+    private void lerArquivoFamilias() {
         JSONParser leitor = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) leitor.parse(new FileReader("src/Auxiliares/familias.json"));
             JSONArray familiasArray = (JSONArray) jsonObject.get("familias");
             for (Object objetoArray : familiasArray) {
-                JSONArray integrantesArray = (JSONArray) ((JSONObject) objetoArray).get("integrantes");
-                Familia familia = new Familia();
-                familia.setStatus((long) ((JSONObject) objetoArray).get("status"));
-                for (Object objetoIntegrante : integrantesArray) {
-                    JSONObject integrante = (JSONObject) objetoIntegrante;
-                    String nome = (String) integrante.get("nome");
-                    String cpf = (String) integrante.get("cpf");
-                    String tipo = (String) integrante.get("tipo");
-                    String dataDeNascimento = (String) integrante.get("dataDeNascimento");
-                    Integrante novoIntegrante = new Integrante(nome, cpf, dataDeNascimento, tipo);
-                    if (integrante.get("renda") != null)
-                        novoIntegrante.setRenda((long) integrante.get("renda"));
-                    familia.setIntegrantes(novoIntegrante);
-                }
-                familias.add(familia);
+                JSONArray listaDeIntegrantes = (JSONArray) ((JSONObject) objetoArray).get("integrantes");
+                long statusDaFamilia = (long) ((JSONObject) objetoArray).get("status");
+                familias.add(lerNovaFamilia(listaDeIntegrantes, statusDaFamilia));
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private Familia lerNovaFamilia(JSONArray listaDeIntegrantes, long statusDaFamilia) {
+        Familia familia = new Familia();
+        familia.setStatus(statusDaFamilia);
+        for (Object objetoIntegrante : listaDeIntegrantes) {
+            JSONObject integrante = (JSONObject) objetoIntegrante;
+            familia.setIntegrantes(criaNovoIntegrante(integrante));
+        }
+        return familia;
+    }
+
+    private Integrante criaNovoIntegrante(JSONObject integrante) {
+        String nome = (String) integrante.get("nome");
+        String cpf = (String) integrante.get("cpf");
+        TipoIntegrante tipo = TipoIntegrante.valueOf((String) integrante.get("tipo"));
+        String dataDeNascimento = (String) integrante.get("dataDeNascimento");
+        Integrante novoIntegrante = new Integrante(nome, cpf, dataDeNascimento, tipo);
+        if (integrante.get("renda") != null)
+            novoIntegrante.setRenda((long) integrante.get("renda"));
+        return novoIntegrante;
     }
 
     public List<Familia> getFamilias() {

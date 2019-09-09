@@ -1,16 +1,21 @@
 package ConstroiFamilias;
 
+import Auxiliares.TipoIntegrante;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
 
 public class Integrante {
-    private int ID;
-    private String nome, cpf, dataNascimento, tipo;
-    private int idade;
+    private final int ID;
+    private final String nome;
+    private final String cpf;
+    private final String dataNascimento;
+    private final TipoIntegrante tipo;
+    private final int idade;
     private long renda;
 
-    public Integrante(String nome, String cpf, String dataNascimento, String tipo) {
+    public Integrante(String nome, String cpf, String dataNascimento, TipoIntegrante tipo) {
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
@@ -38,7 +43,7 @@ public class Integrante {
         return diferenca.getYears();
     }
 
-    public String getTipo() {
+    public TipoIntegrante getTipo() {
         return tipo;
     }
 

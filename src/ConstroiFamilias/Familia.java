@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Familia implements Comparable<Familia> {
     private long status;
-    private HashMap<Integer, Integrante> integrantes = new HashMap<>();
+    private final HashMap<Integer, Integrante> integrantes = new HashMap<>();
     private Pontuacao pontos;
 
     private int getPontos() {
@@ -22,6 +22,10 @@ public class Familia implements Comparable<Familia> {
 
     void setStatus(long status) {
         this.status = status;
+    }
+
+    public long getStatus() {
+        return status;
     }
 
     public void calcularPontuacao() {

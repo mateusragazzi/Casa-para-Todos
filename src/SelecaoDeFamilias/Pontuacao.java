@@ -1,40 +1,44 @@
 package SelecaoDeFamilias;
 
 import ConstroiFamilias.Integrante;
-
+import SelecaoDeFamilias.Metricas.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class Pontuacao extends Metricas implements Criterios {
-    private int pontuacaoTotal, criteriosAtendidos;
+public class Pontuacao extends MetricasDePontuacao implements Criterios {
+    private int pontuacaoTotal;
+    private CriteriosAtendidos criteriosAtendidos;
 
-    public Pontuacao() {
-    }
+    protected Pontuacao() {}
 
     public Pontuacao(HashMap<Integer, Integrante> integrantes) {
-        coletaCriterios(integrantes);
+        criteriosAtendidos = verificaCriterios(integrantes);
+        calculaPontuacaoNosCriterios(criteriosAtendidos);
     }
 
-    private void coletaCriterios(HashMap<Integer, Integrante> integrantes) {
-        float rendaTotalFamilia = 0;
-        int dependentesMenoresDeDezoito = 0, idadePretendente = 0;
+    private CriteriosAtendidos verificaCriterios(HashMap<Integer, Integrante> integrantes) {
+        CriteriosAtendidos criterios = new CriteriosAtendidos();
         for (Map.Entry<Integer, Integrante> objetoIntegrante : integrantes.entrySet()) {
             Integrante integrante = objetoIntegrante.getValue();
             switch (integrante.getTipo()) {
-                case "Pretendente":
-                    idadePretendente = integrante.getIdade();
+                case Pretendente:
+                    criterios.setIdadePretendente(integrante.getIdade());
                     break;
-                case "Dependente":
+                case Dependente:
                     if (integrante.getIdade() < 18)
-                        dependentesMenoresDeDezoito++;
+                        criterios.adicionaQuantidadeMenoresDeDezoito();
                     break;
             }
-            rendaTotalFamilia += integrante.getRenda();
+            criterios.adicionaRendaFamiliar(integrante.getRenda());
         }
-        criterioRenda(rendaTotalFamilia);
-        criterioIdade(idadePretendente);
-        criterioDependentes(dependentesMenoresDeDezoito);
+        return criterios;
+    }
+
+    private void calculaPontuacaoNosCriterios(CriteriosAtendidos criteriosAtendidos) {
+        criterioRenda(criteriosAtendidos.getRendaTotalFamilia());
+        criterioIdade(criteriosAtendidos.getIdadePretendente());
+        criterioDependentes(criteriosAtendidos.getDependentesMenoresDeDezoito());
     }
 
     @Override
@@ -52,8 +56,8 @@ public class Pontuacao extends Metricas implements Criterios {
         return definePontuacao(metricasDependentes, dependentes);
     }
 
-    private int definePontuacao(LinkedList<Ponto> lista, float valor) {
-        for (Ponto ponto : lista) {
+    private int definePontuacao(LinkedList<IntervalosDeMetricas> lista, float valor) {
+        for (IntervalosDeMetricas ponto : lista) {
             if (valor <= ponto.getLimite()) {
                 atualizaPontuacaoFinal(ponto.getValor());
                 return ponto.getValor();
@@ -64,15 +68,11 @@ public class Pontuacao extends Metricas implements Criterios {
 
     private void atualizaPontuacaoFinal(int valor) {
         pontuacaoTotal += valor;
-        criteriosAtendidos++;
+        criteriosAtendidos.aumentarQuantidade();
     }
 
     public int getPontuacaoTotal() {
         return pontuacaoTotal;
-    }
-
-    public int getCriteriosAtendidos() {
-        return criteriosAtendidos;
     }
 
 }
