@@ -19,15 +19,24 @@ public class CriaFamilias {
         lerArquivoFamilias();
     }
 
+    /*
+     * Ao iniciar o cadastro, a familia começa com status = 3 (incompleto)
+     * Se uma residencia for adicionada, seu status é atualizado para 1 (já possui imóvel)
+     * Ao tentar finalizar o cadastro, verifica-se a duplicidade de cadastro e valida o item 2 (familia já contemplada)
+     * Se tudo estiver ok, a familia ganha status 0 (cadastro válido)
+     */
     private void lerArquivoFamilias() {
         JSONParser leitor = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) leitor.parse(new FileReader("src/Auxiliares/familias.json"));
             JSONArray familiasArray = (JSONArray) jsonObject.get("familias");
             for (Object objetoArray : familiasArray) {
-                JSONArray listaDeIntegrantes = (JSONArray) ((JSONObject) objetoArray).get("integrantes");
                 long statusDaFamilia = (long) ((JSONObject) objetoArray).get("status");
-                familias.add(lerNovaFamilia(listaDeIntegrantes, statusDaFamilia));
+                // familias que possuem status diferentes são ignoradas neste momento
+                if (statusDaFamilia == 0) {
+                    JSONArray listaDeIntegrantes = (JSONArray) ((JSONObject) objetoArray).get("integrantes");
+                    familias.add(lerNovaFamilia(listaDeIntegrantes, statusDaFamilia));
+                }
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();

@@ -20,8 +20,8 @@ public class Familia implements Comparable<Familia> {
         integrantes.put(integrante.getID(), integrante);
     }
 
-    void setStatus(long status) {
-        this.status = status;
+    public void setStatus(long novoStatus) {
+        this.status = novoStatus;
     }
 
     public long getStatus() {

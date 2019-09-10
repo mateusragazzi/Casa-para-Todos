@@ -6,27 +6,27 @@
           "nome": "João",
           "cpf": "74482823015",
           "tipo": "Pretendente",
-          "dataDeNascimento": "1989-12-30",
+          "dataDeNascimento": "1981-08-30",
           "renda": 1000
         },
         {
           "nome": "Maria",
           "cpf": "16772695020",
           "tipo": "Cônjuge",
-          "dataDeNascimento": "1989-12-30",
-          "renda": 950
+          "dataDeNascimento": "1980-12-30",
+          "renda": 1000
         },
         {
           "nome": "José",
           "cpf": "61812848005",
           "tipo": "Dependente",
-          "dataDeNascimento": "2015-12-30"
+          "dataDeNascimento": "1999-12-30"
         },
         {
           "nome": "Angela",
           "cpf": "17191746017",
           "tipo": "Dependente",
-          "dataDeNascimento": "2015-12-30"
+          "dataDeNascimento": "2003-12-30"
         }
       ],
       "status": 2
@@ -37,30 +37,30 @@
           "nome": "João",
           "cpf": "74482823015",
           "tipo": "Pretendente",
-          "dataDeNascimento": "1989-12-30",
-          "renda": 1000
+          "dataDeNascimento": "1975-12-30",
+          "renda": 1500
         },
         {
           "nome": "Maria",
           "cpf": "16772695020",
           "tipo": "Cônjuge",
-          "dataDeNascimento": "1989-12-30",
-          "renda": 950
+          "dataDeNascimento": "1977-12-30",
+          "renda": 900
         },
         {
           "nome": "José",
           "cpf": "61812848005",
           "tipo": "Dependente",
-          "dataDeNascimento": "2015-12-30"
+          "dataDeNascimento": "1996-12-30"
         },
         {
           "nome": "Angela",
           "cpf": "17191746017",
           "tipo": "Dependente",
-          "dataDeNascimento": "2015-12-30"
+          "dataDeNascimento": "2000-12-30"
         }
       ],
-      "status": 2
+      "status": 0
     }
   ]
 }
