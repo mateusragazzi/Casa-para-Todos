@@ -67,8 +67,10 @@ public class Pontuacao extends MetricasDePontuacao implements Criterios {
     }
 
     private void atualizaPontuacaoFinal(int valor) {
-        pontuacaoTotal += valor;
-        criteriosAtendidos.aumentarQuantidade();
+        if(valor > 0) {
+            pontuacaoTotal += valor;
+            criteriosAtendidos.aumentarQuantidade();
+        }
     }
 
     public int getPontuacaoTotal() {
